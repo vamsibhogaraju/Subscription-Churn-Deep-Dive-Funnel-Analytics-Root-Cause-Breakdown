@@ -125,6 +125,8 @@ The RCA engine isolates each churned user's **last transaction row** and applies
 
 ## Executive Dashboard
 
+![Dashboard](Data/outputs/Dashboard%20screenshort.png)
+
 A single-page Streamlit dashboard (`dashboard_app.py`) connects live to PostgreSQL and renders:
 
 | Visual | Description |
