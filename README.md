@@ -99,21 +99,27 @@ The RCA engine isolates each churned user's **last transaction row** and applies
 
 ### RCA Findings
 
-**Passive Expiry dominates** — the majority of churned users had `is_auto_renew = 0` on their last transaction, meaning they were on manual-pay plans that simply lapsed without any explicit cancel signal. These users did not actively leave; they just never came back.
+| Rank | Root Cause | Users Lost | Revenue Lost | Share |
+|------|-----------|----------:|-------------:|------:|
+| 1 | Voluntary Churn | 8,190 | $1,068,471 | 99.92% |
+| 2 | Passive Expiry | 25 | $875 | 0.08% |
+| 3 | Involuntary Payment Failure | 430 | $0 | 0.00% |
 
-**Voluntary Churn is present but not dominant** — a portion of users explicitly cancelled (`is_cancel = 1`). These users made a deliberate decision, which implies dissatisfaction that exit surveys or targeted win-back campaigns could address.
+**Voluntary Churn is the overwhelming driver at 99.92% of revenue leakage.** 8,190 churned users explicitly cancelled (`is_cancel = 1`). This is not passive drift — these are deliberate exits. The near-total concentration of revenue loss in a single category means the business has one primary problem to solve: understanding and reversing the decision to cancel.
 
-**Silent Abandonment accounts for the remainder** — users who passed every prior condition check but still didn't renew. No cancellation, no failed payment, auto-renew was on — they simply stopped. This is the hardest cohort to recover because there is no observable distress signal before they leave.
+**Involuntary Payment Failure affected 430 users but caused $0 in revenue loss.** These users had payment failures recorded but their `plan_price` was zero (free or promotional plans), so no billable revenue was at risk. The payment infrastructure itself is not a revenue problem.
 
-> Involuntary Payment Failure and Discount Leakage were **not observed** in this dataset, indicating KKBox's payment infrastructure handled failures correctly and no below-floor discounting occurred in the 2015–2017 period.
+**Passive Expiry is negligible at 0.08%.** Only 25 users churned due to manual-pay plans lapsing naturally — this is not a meaningful contributor to revenue leakage in this dataset.
+
+> Discount Leakage and Silent Abandonment were **not observed**, indicating no below-floor pricing occurred and every churned user had at least one identifiable exit signal.
 
 ### Recommended Actions by Root Cause
 
-| Root Cause | Recommended Intervention |
-|------------|--------------------------|
-| Passive Expiry | Convert manual-pay users to auto-renew via in-app UX nudges; send expiry reminder push notifications 7 and 3 days before lapse |
-| Voluntary Churn | Deploy exit-intent survey at cancellation; trigger win-back campaign 14 days post-cancel with a targeted offer |
-| Silent Abandonment | Re-engagement email/push sequence starting 5 days before expiry; personalised playlist or feature highlight based on listen history |
+| Root Cause | Priority | Recommended Intervention |
+|------------|----------|--------------------------|
+| Voluntary Churn | Critical | Deploy exit-intent survey at point of cancellation to capture reason; trigger a personalised win-back campaign 7 and 14 days post-cancel with a targeted retention offer |
+| Involuntary Payment Failure | Monitor | No revenue impact currently — monitor if paid-plan payment failures emerge; implement card updater service as a preventive measure |
+| Passive Expiry | Low | Send expiry reminder 3 days before lapse; surface auto-renew opt-in prompt at next login |
 
 ---
 
