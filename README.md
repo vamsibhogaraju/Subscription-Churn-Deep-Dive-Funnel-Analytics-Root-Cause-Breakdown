@@ -1,6 +1,6 @@
 # Subscription Churn — Deep Dive: Funnel Analytics & Root Cause Breakdown
 
-**Dataset:** KKBox (Taiwan's largest music streaming platform) · 2015–2017
+**Dataset:** KKBox (Taiwan's largest music streaming platform) · 
 **Stack:** Python · PostgreSQL · Pandas · Matplotlib · Plotly · Streamlit
 
 ---
