@@ -1,0 +1,19 @@
+# Data files — large, not for version control
+Data/raw/
+Data/cleaned/
+
+# Notebook checkpoints
+.ipynb_checkpoints/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+venv/
+.venv/
+
+# OS
+.DS_Store
+Thumbs.db
